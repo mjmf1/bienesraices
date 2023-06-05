@@ -11,7 +11,7 @@
         <p class="copyright">Todos los Derechos Reservados <?php echo date('Y'); ?>&copy;</p>
     </footer>
     
-    <script src="src/js/modernizr.js"></script>
-    <script src="src/js/app.js"></script>
+    <script src="../src/js/modernizr.js"></script>
+    <script src="../src/js/app.js"></script>
 </body>
 </html>
