@@ -1,4 +1,12 @@
 <?php 
+  // base de datos
+ 
+   require '../../includes/config/database.php';
+
+   $conn = conectarDB();
+
+   var_dump($conn);
+
     require '../../includes/funciones.php';  
     incluirTemplate('header');
  ?>
