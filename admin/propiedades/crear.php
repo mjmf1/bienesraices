@@ -22,8 +22,35 @@
         <label for="descripcion">descripción:</label>
         <textarea  id="descripcion" ></textarea>
 
+     </fieldset>
+     
+     <fieldset>
+      <legend>Información Propiedades</legend>
+
+      <label for="habitaciones">Habitaciones:</label>
+        <input type="number" id="habitaciones" placeholder="Ej:5" min="1" max="6">
+
+        <label for="wc">Baños:</label>
+        <input type="number" id="wc" placeholder="Ej:2" min="1" max="4">
+
+        <label for="estacionamiento">Estacionamiento:</label>
+        <input type="number" id="estacionamiento" placeholder="Ej:3" min="1" max="3">
 
      </fieldset>
+
+     <fieldset>
+      <legend>Vendedor</legend>
+
+      <select name="" id="">
+         <option value="1">Marlon</option>
+         <option value="2">Juan</option>
+         <option value="3">Karen</option>
+      </select>
+
+     </fieldset>
+
+     <input type="submit" class="boton boton-verde" value="Crear Propiedad">
+
     </form>
 
     </main>
