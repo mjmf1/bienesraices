@@ -5,9 +5,13 @@
 
    $conn = conectarDB();
 
+         // arreglo con mensajes de errores 
 
+         $errores = [];
+
+         // Ejucta el codigo Despues que el usuario envia en formulario
    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-      
+
       // echo '<pre>';
       // var_dump($_POST);
       // echo '</pre>';
@@ -19,22 +23,57 @@
       $wc = $_POST['wc'];
       $estacionamiento = $_POST['estacionamiento'];
       $vendedorId = $_POST['vendedorId'];
+      
+     // Validación de campos requeridos
+   $camposRequeridos = [
+      'titulo' => 'Debes añadir un título',
+      'precio' => 'Debes añadir una cantidad de precio válida',
+      'descripcion' => 'La descripción debe tener al menos 50 caracteres',
+      'habitaciones' => 'Debes añadir una cantidad de habitaciones validas',
+      'wc' => 'El numero de baños es obligatorio',
+      'estacionamiento' => 'Debes añadir una cantidad de estacionamientos validos',
+      'vendedorId' => 'Seleccione un vendedor',
 
-       // insertar en la base de datos 
+      // Agrega los demás campos requeridos aquí
+   ];
 
-       $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId)
-       VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedorId')";
+   foreach ($camposRequeridos as $campo => $mensaje) {
+      if (empty($_POST[$campo])) {
+         $errores[] = $mensaje;
+      }
+      else if ($campo === 'descripcion' && strlen($_POST[$campo]) < 50) {
+         $errores[] = $mensaje;
+      }
+   }
 
-       //echo $query;
 
-       $resultado = mysqli_query($conn, $query);
+      // revisar que el arreglo de erroes este vacio
 
-       if($resultado){
-         echo 'insertado correctamente';
-       }else{
-         echo 'no funcionó: ' . mysqli_error($conn); // Muestra el mensaje de error específico
-    echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
-       }
+      if(empty($errores)){
+   // insertar en la base de datos 
+
+   $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId)
+   VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedorId')";
+
+   //echo $query;
+
+   $resultado = mysqli_query($conn, $query);
+
+   if($resultado){
+     echo 'insertado correctamente';
+   }else{
+     echo 'no funcionó: ' . mysqli_error($conn); // Muestra el mensaje de error específico
+echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
+   }
+      };
+
+      // echo '<pre>';
+      // var_dump($errores);
+      // echo '</pre>';
+      
+      // exit;
+
+    
        
     }
 
@@ -47,6 +86,14 @@
         <h1>crear</h1>
 
         <a href="/bienesraices/admin" class="boton boton-verde">Volver</a>
+
+      <?php foreach($errores as $error): ?>
+        
+         <div class="alerta error">
+          <?php echo $error; ?>
+         </div>
+         <?php endforeach; ?>
+
     <form action="/bienesraices/admin/propiedades/crear.php" class="formulario" method="POST">
      <fieldset>
         <legend>Información General</legend>
@@ -83,6 +130,7 @@
       <legend>Vendedor</legend>
 
       <select name="vendedorId" id="vendedorId">
+         <option value="">--Selecione--</option>
          <option value="1">Marlon</option>
          <option value="2">Juan</option>
          <option value="3">Karen</option>
