@@ -9,6 +9,14 @@
 
          $errores = [];
 
+         $titulo = '';
+      $precio = '';
+      $descripcion = '';
+      $habitaciones = '';
+      $wc = '';
+      $estacionamiento = '';
+      $vendedorId = '';
+
          // Ejucta el codigo Despues que el usuario envia en formulario
    if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
@@ -72,8 +80,6 @@ echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       // echo '</pre>';
       
       // exit;
-
-    
        
     }
 
@@ -99,16 +105,16 @@ echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
         <legend>Información General</legend>
 
         <label for="titulo">Titulo:</label>
-        <input type="text" id="tiutlo" name="titulo" placeholder="Titulo de la Propiedad">
+        <input type="text" id="tiutlo" name="titulo" placeholder="Titulo de la Propiedad" value="<?php echo $titulo;?>">
 
         <label for="precio">Precio:</label>
-        <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad">
+        <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad" value="<?php echo $precio;?>">
 
         <label for="imagen">Imagen:</label>
         <input type="file" id="imagen" accept="image/jpeg, image/png">
 
         <label for="descripcion">descripción:</label>
-        <textarea  id="descripcion" name="descripcion" ></textarea>
+        <textarea  id="descripcion" name="descripcion"><?php echo $descripcion;?></textarea>
 
      </fieldset>
      
@@ -116,20 +122,20 @@ echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       <legend>Información Propiedades</legend>
 
       <label for="habitaciones">Habitaciones:</label>
-        <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej:5" min="1" max="6">
+        <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej:5" min="1" max="6" value="<?php echo $habitaciones;?>">
 
         <label for="wc">Baños:</label>
-        <input type="number" id="wc" name="wc" placeholder="Ej:2" min="1" max="4">
+        <input type="number" id="wc" name="wc" placeholder="Ej:2" min="1" max="4" value="<?php echo $wc;?>">
 
         <label for="estacionamiento">Estacionamiento:</label>
-        <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej:3" min="1" max="3">
+        <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej:3" min="1" max="3" value="<?php echo $estacionamiento;?>">
 
      </fieldset>
 
      <fieldset>
       <legend>Vendedor</legend>
 
-      <select name="vendedorId" id="vendedorId">
+      <select name="vendedorId" id="vendedorId" value="<?php echo $vendedorId;?>">
          <option value="">--Selecione--</option>
          <option value="1">Marlon</option>
          <option value="2">Juan</option>
