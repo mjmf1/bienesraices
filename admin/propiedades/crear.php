@@ -30,14 +30,14 @@
       // var_dump($_POST);
       // echo '</pre>';
 
-      $titulo = $_POST['titulo'];
-      $precio = $_POST['precio'];
-      $descripcion = $_POST['descripcion'];
-      $habitaciones = $_POST['habitaciones'];
-      $wc = $_POST['wc'];
-      $estacionamiento = $_POST['estacionamiento'];
-      $vendedorId = $_POST['vendedorId'];
-      $fecha = date('y/m/d');
+      $titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
+      $precio = mysqli_real_escape_string($conn, $_POST['precio']);
+      $descripcion  = mysqli_real_escape_string($conn, $_POST['descripcion']);
+      $habitaciones = mysqli_real_escape_string($conn,  $_POST['habitaciones']);
+      $wc = mysqli_real_escape_string($conn, $_POST['wc']);
+      $estacionamiento = mysqli_real_escape_string($conn, $_POST['estacionamiento']);
+      $vendedorId = mysqli_real_escape_string($conn,$_POST['vendedorId']);
+      $fecha = mysqli_real_escape_string($conn, date('y/m/d'));
       
      // Validación de campos requeridos
    $camposRequeridos = [
