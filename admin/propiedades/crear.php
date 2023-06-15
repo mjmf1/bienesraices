@@ -5,6 +5,12 @@
 
    $conn = conectarDB();
 
+         //consultar para obtener a los vendedores
+
+         $consulta = 'SELECT * FROM vendedores';
+
+         $resultado = mysqli_query($conn, $consulta);
+
          // arreglo con mensajes de errores 
 
          $errores = [];
@@ -31,6 +37,7 @@
       $wc = $_POST['wc'];
       $estacionamiento = $_POST['estacionamiento'];
       $vendedorId = $_POST['vendedorId'];
+      $fecha = date('y/m/d');
       
      // Validación de campos requeridos
    $camposRequeridos = [
@@ -60,15 +67,17 @@
       if(empty($errores)){
    // insertar en la base de datos 
 
-   $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId)
-   VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$vendedorId')";
+   $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, fecha, vendedorId)
+   VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$fecha', '$vendedorId')";
 
    //echo $query;
 
    $resultado = mysqli_query($conn, $query);
 
    if($resultado){
-     echo 'insertado correctamente';
+     // redireccionar al usuario
+      header('location: /bienesraices/admin');
+
    }else{
      echo 'no funcionó: ' . mysqli_error($conn); // Muestra el mensaje de error específico
 echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
@@ -137,9 +146,9 @@ echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
 
       <select name="vendedorId" id="vendedorId" value="<?php echo $vendedorId;?>">
          <option value="">--Selecione--</option>
-         <option value="1">Marlon</option>
-         <option value="2">Juan</option>
-         <option value="3">Karen</option>
+         <?php while($vendedor = mysqli_fetch_assoc($resultado)): ?>
+            <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?>  value="<?php echo $vendedor['id']; ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido'];?></option>
+            <?php endwhile; ?>
       </select>
 
      </fieldset>
