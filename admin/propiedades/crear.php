@@ -30,9 +30,9 @@
       // var_dump($_POST);
       // echo '</pre>';
 
-      // echo '<pre>';
-      // var_dump($_FILES);  //informacion mas detallada de los archivos tipo files
-      // echo '</pre>';
+      echo '<pre>';
+      var_dump($_FILES);  //informacion mas detallada de los archivos tipo files
+      echo '</pre>';
 
 
       $titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
