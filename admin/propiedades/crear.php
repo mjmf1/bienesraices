@@ -30,6 +30,11 @@
       // var_dump($_POST);
       // echo '</pre>';
 
+      // echo '<pre>';
+      // var_dump($_FILES);  //informacion mas detallada de los archivos tipo files
+      // echo '</pre>';
+
+
       $titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
       $precio = mysqli_real_escape_string($conn, $_POST['precio']);
       $descripcion  = mysqli_real_escape_string($conn, $_POST['descripcion']);
@@ -38,6 +43,14 @@
       $estacionamiento = mysqli_real_escape_string($conn, $_POST['estacionamiento']);
       $vendedorId = mysqli_real_escape_string($conn,$_POST['vendedorId']);
       $fecha = mysqli_real_escape_string($conn, date('y/m/d'));
+
+      //asignar files hacia una variable
+
+      $imagen = $_FILES['imagen'];
+
+      //validar por tamaño (100kb maximo)
+
+      $media = 10000 * 100;
       
      // Validación de campos requeridos
    $camposRequeridos = [
@@ -48,8 +61,8 @@
       'wc' => 'El numero de baños es obligatorio',
       'estacionamiento' => 'Debes añadir una cantidad de estacionamientos validos',
       'vendedorId' => 'Seleccione un vendedor',
-
-      // Agrega los demás campos requeridos aquí
+      'imagen' => 'La imagen es obligatoria',
+      'medida' => 'La imagen es muy pesada'
    ];
 
    foreach ($camposRequeridos as $campo => $mensaje) {
@@ -59,12 +72,19 @@
       else if ($campo === 'descripcion' && strlen($_POST[$campo]) < 50) {
          $errores[] = $mensaje;
       }
-   }
+      else if(!$imagen['name'] || $imagen['error']){
+         $errores[] = $mensaje;
+      }
+      else if($imagen['size'] > $media ){
+         $errores[] = $mensaje;
+      }
+   } 
 
 
       // revisar que el arreglo de erroes este vacio
 
       if(empty($errores)){
+
    // insertar en la base de datos 
 
    $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, fecha, vendedorId)
@@ -109,7 +129,9 @@ echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
          </div>
          <?php endforeach; ?>
 
-    <form action="/bienesraices/admin/propiedades/crear.php" class="formulario" method="POST">
+    <form action="/bienesraices/admin/propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data" > 
+    <!-- enctype="multipart/form-data" necesario para leer los datelles de los file -->
+
      <fieldset>
         <legend>Información General</legend>
 
@@ -120,7 +142,7 @@ echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
         <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad" value="<?php echo $precio;?>">
 
         <label for="imagen">Imagen:</label>
-        <input type="file" id="imagen" accept="image/jpeg, image/png">
+        <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
 
         <label for="descripcion">descripción:</label>
         <textarea  id="descripcion" name="descripcion"><?php echo $descripcion;?></textarea>
