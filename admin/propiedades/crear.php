@@ -111,7 +111,7 @@ if ($_FILES['imagen']['error'] === 4 || empty($_FILES['imagen']['name'])) {
 
    if($resultado){
      // redireccionar al usuario
-      header('location: /bienesraices/admin');
+      header('location: /bienesraices/admin/?resultado=1');
 
    }else{
      echo 'no funcionó: ' . mysqli_error($conn); // Muestra el mensaje de error específico
