@@ -50,7 +50,7 @@
 
       //validar por tamaño (1mb maximo)
 
-      $media = 100 * 1000;
+      $media = 1000 * 1000;
       
      // Validación de campos requeridos
    $camposRequeridos = [
@@ -80,36 +80,30 @@ if ($_FILES['imagen']['error'] === 4 || empty($_FILES['imagen']['name'])) {
    $errores[] = 'La imagen es muy pesada';
 }
 
-
-
       // revisar que el arreglo ó (array) de erroes este vacio
 
       if(empty($errores)){
 
-         //subida de archivos
+         //**subida de archivos **
 
          //crear carpeta
-
          $rutaImagen = '';
          if ($_FILES['imagen']['error'] === 0) {
             $nombreImagen = $_FILES['imagen']['name'];
+             //generar un nombre unico
+             $nombreImagen = md5 (uniqid(rand(), true) ) . '.' . 'jpg';
+
             $rutaImagen = '/bienesraices/imagenes/' . $nombreImagen;
-            move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
+
+              
+
+            move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen );
          }
-
-         // Si no hay errores, proceder con la subida de archivos y la inserción en la base de datos
-
-         
-          //Subida de archivos
-
-           move_uploaded_file($imagen['tmp_name'], $rutaImagen . "/archivo.jpsg" );
-
-            exit;
 
    // insertar en la base de datos 
 
-   $query = "INSERT INTO propiedades (titulo, precio, descripcion, habitaciones, wc, estacionamiento, fecha, vendedorId)
-   VALUES ('$titulo', '$precio', '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$fecha', '$vendedorId')";
+   $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, fecha, vendedorId)
+   VALUES ('$titulo', '$precio', '$nombreImagen' , '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$fecha', '$vendedorId')";
 
    //echo $query;
 
