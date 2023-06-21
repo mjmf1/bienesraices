@@ -48,9 +48,9 @@
 
       $imagen = $_FILES['imagen'];
 
-      //validar por tamaño (100kb maximo)
+      //validar por tamaño (1mb maximo)
 
-      $media = 10000 * 100;
+      $media = 100 * 1000;
       
      // Validación de campos requeridos
    $camposRequeridos = [
@@ -61,8 +61,7 @@
       'wc' => 'El numero de baños es obligatorio',
       'estacionamiento' => 'Debes añadir una cantidad de estacionamientos validos',
       'vendedorId' => 'Seleccione un vendedor',
-      'imagen' => 'La imagen es obligatoria',
-      'medida' => 'La imagen es muy pesada'
+     
    ];
 
    foreach ($camposRequeridos as $campo => $mensaje) {
@@ -72,18 +71,40 @@
       else if ($campo === 'descripcion' && strlen($_POST[$campo]) < 50) {
          $errores[] = $mensaje;
       }
-      else if(!$imagen['name'] || $imagen['error']){
-         $errores[] = $mensaje;
-      }
-      else if($imagen['size'] > $media ){
-         $errores[] = $mensaje;
-      }
    } 
 
+   // Validar imagen
+if ($_FILES['imagen']['error'] === 4 || empty($_FILES['imagen']['name'])) {
+   $errores[] = 'La imagen es obligatoria';
+} else if ($_FILES['imagen']['size'] > $media) {
+   $errores[] = 'La imagen es muy pesada';
+}
 
-      // revisar que el arreglo de erroes este vacio
+
+
+      // revisar que el arreglo ó (array) de erroes este vacio
 
       if(empty($errores)){
+
+         //subida de archivos
+
+         //crear carpeta
+
+         $rutaImagen = '';
+         if ($_FILES['imagen']['error'] === 0) {
+            $nombreImagen = $_FILES['imagen']['name'];
+            $rutaImagen = '/bienesraices/imagenes/' . $nombreImagen;
+            move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
+         }
+
+         // Si no hay errores, proceder con la subida de archivos y la inserción en la base de datos
+
+         
+          //Subida de archivos
+
+           move_uploaded_file($imagen['tmp_name'], $rutaImagen . "/archivo.jpsg" );
+
+            exit;
 
    // insertar en la base de datos 
 
@@ -107,8 +128,7 @@ echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       // echo '<pre>';
       // var_dump($errores);
       // echo '</pre>';
-      
-      // exit;
+       
        
     }
 
