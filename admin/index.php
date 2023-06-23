@@ -1,25 +1,40 @@
 <?php
-
-$resultado = $_GET['resultado'] ?? null;
-
-    require '../includes/funciones.php';  
-    incluirTemplate('header');
- ?>
-    <main class="contenedor seccion">
-        <h1>Administrador de Bienes Raices</h1>
-
-        <?php if($resultado == 1): ?>
-
-            <p class="alerta exito">Anuncio Creado Correctamente</p>
-
-            <?php endif; ?>
+//Muestra un mensaje condicional
 
 
+    //Importar la Conexion
+    require '../includes/config/database.php';
 
-        <a href="/bienesraices/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propieda</a>
+    $conn = conectarDB();
 
-        <table class="propiedades">
-            <thead>
+    //Escribir la Query
+    $query = "SELECT * FROM propiedades";
+
+   //Consultar la BD 
+   $resultadoConsulta = mysqli_query($conn , $query);
+
+
+   $resultado = $_GET['resultado'] ?? null;
+
+// incluye un template
+require '../includes/funciones.php';
+incluirTemplate('header');
+?>
+<main class="contenedor seccion">
+    <h1>Administrador de Bienes Raices</h1>
+
+    <?php if ($resultado == 1) : ?>
+
+        <p class="alerta exito">Anuncio Creado Correctamente</p>
+
+    <?php endif; ?>
+
+
+
+    <a href="/bienesraices/admin/propiedades/crear.php" class="boton boton-verde">Nueva Propieda</a>
+
+    <table class="propiedades">
+        <thead>
 
             <tr>
                 <th>ID</th>
@@ -28,23 +43,29 @@ $resultado = $_GET['resultado'] ?? null;
                 <th>Precio</th>
                 <th>Acciones</th>
             </tr>
-                
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Casa en la Playa</td>
-                    <td><img src="/bienesraices/imagenes/1be769320b0cb66e1fecdad94e3f950d.jpg" class="imagen-tabla" alt="imagenes"></td>
-                    <td>$1200000</td>
-                    <td>
+
+        </thead>
+         <tbody>  <!--Mostrar los resultados -->
+         <?php while($propiedad = mysqli_fetch_assoc($resultadoConsulta)): ?>
+            <tr>
+                <td><?php echo $propiedad['id'];?></td>
+                <td><?php echo $propiedad['titulo'];?></td>
+                <td><img src="/bienesraices/imagenes/<?php echo $propiedad['imagen'];?>" class="imagen-tabla" alt="imagenes"></td>
+                <td>$<?php echo $propiedad['precio'];?></td>
+                <td>
                     <a href="#" class="boton-rojo-block">Eliminar</a>
                     <a href="#" class="boton-amarillo-block">Actualizar</a>
-                    </td>
-                </tr>
-        </table>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+    </table>
 
-    </main>
+</main>
 
-    <?php 
- incluirTemplate('footer');
- ?>
+<?php
+
+//   Cerrar la conexion
+    mysqli_close($conn);
+
+incluirTemplate('footer');
+?>
