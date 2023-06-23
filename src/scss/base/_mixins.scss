@@ -22,8 +22,25 @@
     grid-template-columns: repeat($columnas, 1fr);
 }
 
-@mixin boton ($bg-color, $display){
-    background-color: $bg-color;
+// @mixin boton ($bg-color, $display){
+//     background-color: $bg-color;
+//     color: $blanco;
+//     font-weight: $bold;
+//     text-decoration: none;
+//     padding: 1rem 3rem;
+//     text-align: center;
+//     margin-top: $separacion,2;
+//     display: $display;
+//     border: none;
+
+//     &:hover{
+//         background-color: darken($bg-color, 5rem);
+//         cursor: pointer;
+//     }
+// }
+
+@mixin boton($bgColor, $display ) {
+    background-color: $bgColor;
     color: $blanco;
     font-weight: $bold;
     text-decoration: none;
@@ -33,8 +50,8 @@
     display: $display;
     border: none;
 
-    &:hover{
-        background-color: darken($bg-color, 5rem);
+    &:hover {
+        background-color: darken($bgColor, 5rem);
         cursor: pointer;
     }
 }

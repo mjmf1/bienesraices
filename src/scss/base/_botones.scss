@@ -16,3 +16,11 @@
     justify-content: flex-end;
 
 }
+
+.boton-rojo-block{
+    @include boton($rojo, block)
+}
+
+.boton-verde-block{
+    @include boton($amarillo, block)
+}
