@@ -12,14 +12,22 @@ if(!$id){
 
 
 // base de datos
-
 require '../../includes/config/database.php';
-
 $conn = conectarDB();
+
+// obtener los datos de la propiedad
+$consulta = "SELECT * FROM propiedades WHERE id = ${id}";
+$resultado = mysqli_query($conn, $consulta);
+$propiedad = mysqli_fetch_assoc($resultado);
+
+'<pre>';
+var_dump($propiedad);
+
+'</pre>';
 
 //consultar para obtener a los vendedores
 
-$consulta = 'SELECT * FROM vendedores';
+$consulta = "SELECT * FROM vendedores";
 
 $resultado = mysqli_query($conn, $consulta);
 
@@ -27,13 +35,14 @@ $resultado = mysqli_query($conn, $consulta);
 
 $errores = [];
 
-$titulo = '';
-$precio = '';
-$descripcion = '';
-$habitaciones = '';
-$wc = '';
-$estacionamiento = '';
-$vendedorId = '';
+$titulo = $propiedad['titulo'] ;
+$precio = $propiedad['precio'];
+$descripcion = $propiedad['descripcion'] ;
+$habitaciones = $propiedad['habitaciones'] ;
+$wc = $propiedad['wc'] ;
+$estacionamiento = $propiedad['estacionamiento'];
+$vendedorId = $propiedad['vendedorId'] ;
+$imagenPropiedad = $propiedad['imagen'];
 
 // Ejucta el codigo Despues que el usuario envia en formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -153,20 +162,21 @@ incluirTemplate('header');
       </div>
    <?php endforeach; ?>
 
-   <form action="/bienesraices/admin/propiedades/crear.php" class="formulario" method="POST" enctype="multipart/form-data">
+   <form action="/bienesraices/admin/propiedades/actualizar.php?id=<?php echo $id; ?>"class="formulario" method="POST" enctype="multipart/form-data">
       <!-- enctype="multipart/form-data" necesario para leer los datelles de los file -->
 
       <fieldset>
          <legend>Información General</legend>
 
          <label for="titulo">Titulo:</label>
-         <input type="text" id="tiutlo" name="titulo" placeholder="Titulo de la Propiedad" value="<?php echo $titulo; ?>">
+         <input type="text" id="titulo" name="titulo" placeholder="Titulo de la Propiedad" value="<?php echo $titulo; ?>">
 
          <label for="precio">Precio:</label>
          <input type="number" id="precio" name="precio" placeholder="Precio de la Propiedad" value="<?php echo $precio; ?>">
 
          <label for="imagen">Imagen:</label>
          <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
+         <img src="/bienesraices/imagenes/<?php echo $imagenPropiedad; ?>" class="imagen-small">
 
          <label for="descripcion">descripción:</label>
          <textarea id="descripcion" name="descripcion"><?php echo $descripcion; ?></textarea>
@@ -190,8 +200,11 @@ incluirTemplate('header');
       <fieldset>
          <legend>Vendedor</legend>
 
-         <select name="vendedorId" id="vendedorId" value="<?php echo $vendedorId; ?>">
-            <option value="">--Selecione--</option>
+         <!-- <select name="vendedorId" id="vendedorId" value="<?php echo $vendedorId; ?>">
+            <option value="">--Selecione--</option> -->
+
+            <option value="" <?php echo $vendedorId === '' ? 'selected' : ''; ?>>--Seleccione--</option>
+
             <?php while ($vendedor = mysqli_fetch_assoc($resultado)) : ?>
                <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?></option>
             <?php endwhile; ?>
