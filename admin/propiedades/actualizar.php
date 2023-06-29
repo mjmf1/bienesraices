@@ -6,8 +6,8 @@ $id = $_GET['id'];
 
 $id = filter_var($id, FILTER_VALIDATE_INT);
 
-if(!$id){
-    header('location: /bienesraices/admin');
+if (!$id) {
+   header('location: /bienesraices/admin');
 }
 
 
@@ -20,10 +20,10 @@ $consulta = "SELECT * FROM propiedades WHERE id = ${id}";
 $resultado = mysqli_query($conn, $consulta);
 $propiedad = mysqli_fetch_assoc($resultado);
 
-'<pre>';
-var_dump($propiedad);
+// '<pre>';
+// var_dump($propiedad);
 
-'</pre>';
+// '</pre>';
 
 //consultar para obtener a los vendedores
 
@@ -35,25 +35,25 @@ $resultado = mysqli_query($conn, $consulta);
 
 $errores = [];
 
-$titulo = $propiedad['titulo'] ;
+$titulo = $propiedad['titulo'];
 $precio = $propiedad['precio'];
-$descripcion = $propiedad['descripcion'] ;
-$habitaciones = $propiedad['habitaciones'] ;
-$wc = $propiedad['wc'] ;
+$descripcion = $propiedad['descripcion'];
+$habitaciones = $propiedad['habitaciones'];
+$wc = $propiedad['wc'];
 $estacionamiento = $propiedad['estacionamiento'];
-$vendedorId = $propiedad['vendedorId'] ;
+$vendedorId = $propiedad['vendedorId'];
 $imagenPropiedad = $propiedad['imagen'];
 
 // Ejucta el codigo Despues que el usuario envia en formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-   // echo '<pre>';
-   // var_dump($_POST);
-   // echo '</pre>';
+   //    echo '<pre>';
+   //    var_dump($_POST);
+   //    echo '</pre>';
 
-   echo '<pre>';
-   var_dump($_FILES);  //informacion mas detallada de los archivos tipo files
-   echo '</pre>';
+   //    echo '<pre>';
+   //    var_dump($_FILES);  //informacion mas detallada de los archivos tipo files
+   //    echo '</pre>';
 
 
    $titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
@@ -93,10 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       }
    }
 
-   // Validar imagen
-   if ($_FILES['imagen']['error'] === 4 || empty($_FILES['imagen']['name'])) {
-      $errores[] = 'La imagen es obligatoria';
-   } else if ($_FILES['imagen']['size'] > $media) {
+   // Validar solo el tamaño de la imagen
+   if ($_FILES['imagen']['size'] > $media) {
       $errores[] = 'La imagen es muy pesada';
    }
 
@@ -104,34 +102,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    if (empty($errores)) {
 
-      //**subida de archivos **
+      //my query
+      $query = "UPDATE propiedades 
+       SET titulo = '${titulo}',precio = '${precio}', descripcion = '${descripcion}',  habitaciones = ${habitaciones}, wc = ${wc},estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
 
-      //crear carpeta
-      $rutaImagen = '';
-      if ($_FILES['imagen']['error'] === 0) {
-         $nombreImagen = $_FILES['imagen']['name'];
-         //generar un nombre unico
-         $nombreImagen = md5(uniqid(rand(), true)) . '.' . 'jpg';
+      //  echo $query;
 
-         $rutaImagen = '/bienesraices/imagenes/' . $nombreImagen;
-
-
-
-         move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
-      }
-
-      // insertar en la base de datos 
-
-      $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, fecha, vendedorId)
-   VALUES ('$titulo', '$precio', '$nombreImagen' , '$descripcion', '$habitaciones', '$wc', '$estacionamiento', '$fecha', '$vendedorId')";
-
-      //echo $query;
+      //  exit;
 
       $resultado = mysqli_query($conn, $query);
 
       if ($resultado) {
          // redireccionar al usuario
-         header('location: /bienesraices/admin/?resultado=1');
+         header('location: /bienesraices/admin/?resultado=2');
       } else {
          echo 'no funcionó: ' . mysqli_error($conn); // Muestra el mensaje de error específico
          echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
@@ -162,7 +145,7 @@ incluirTemplate('header');
       </div>
    <?php endforeach; ?>
 
-   <form action="/bienesraices/admin/propiedades/actualizar.php?id=<?php echo $id; ?>"class="formulario" method="POST" enctype="multipart/form-data">
+   <form class="formulario" method="POST" enctype="multipart/form-data">
       <!-- enctype="multipart/form-data" necesario para leer los datelles de los file -->
 
       <fieldset>
@@ -200,10 +183,8 @@ incluirTemplate('header');
       <fieldset>
          <legend>Vendedor</legend>
 
-         <!-- <select name="vendedorId" id="vendedorId" value="<?php echo $vendedorId; ?>">
-            <option value="">--Selecione--</option> -->
-
-            <option value="" <?php echo $vendedorId === '' ? 'selected' : ''; ?>>--Seleccione--</option>
+         <select name="vendedorId" id="vendedorId" value="<?php echo $vendedorId; ?>">
+            <option value="">--Selecione--</option>
 
             <?php while ($vendedor = mysqli_fetch_assoc($resultado)) : ?>
                <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?> value="<?php echo $vendedor['id']; ?>"><?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?></option>

@@ -27,6 +27,10 @@ incluirTemplate('header');
 
         <p class="alerta exito">Anuncio Creado Correctamente</p>
 
+        <?php elseif ($resultado == 2) : ?>
+
+<p class="alerta exito">Anuncio Actualizado Correctamente</p>
+
     <?php endif; ?>
 
 
