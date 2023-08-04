@@ -20,6 +20,7 @@ $consulta = "SELECT * FROM propiedades WHERE id = ${id}";
 $resultado = mysqli_query($conn, $consulta);
 $propiedad = mysqli_fetch_assoc($resultado);
 
+
 // '<pre>';
 // var_dump($propiedad);
 
@@ -101,10 +102,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    // revisar que el arreglo ó (array) de erroes este vacio
 
    if (empty($errores)) {
+      // Definir la ruta de la carpeta de destino
+$carpetaImagenes = '/bienesraices/imagenes/';
+
+   // Verificar si la carpeta ya existe o crearla
+   if (!is_dir($carpetaImagenes)) {
+    mkdir($carpetaImagenes);
+}
+      // Subida de archivos
+
+      if($imagen['name']){
+         echo' <pre>';
+         var_dump($_SERVER['DOCUMENT_ROOT'] . $carpetaImagenes . $propiedad['imagen']);
+              echo '</pre>';
+
+         //eliminar imagen previa
+        $respuesta = unlink( $_SERVER['DOCUMENT_ROOT'] . $carpetaImagenes . $propiedad['imagen']);
+
+        var_dump(
+         $_SERVER['DOCUMENT_ROOT']);
+
+
+      }  
+
+     
+     
+             
+
+         //   echo' <pre>';
+         //   var_dump($carpetaImagenes);
+         //        echo '</pre>';
+            exit;
+
+
+
+
+    // Generar un Nombre Unico para la imagen
+    $nombreImagen = md5(uniqid(rand(), true)) . '.jpg';
+
+    // Establecer la ruta completa de la imagen en la carpeta de destino
+    $rutaImagen = $carpetaImagenes . $nombreImagen;
+
+    // Mover la imagen a la carpeta de destino
+    move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
+
 
       //my query
       $query = "UPDATE propiedades 
-       SET titulo = '${titulo}',precio = '${precio}', descripcion = '${descripcion}',  habitaciones = ${habitaciones}, wc = ${wc},estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
+       SET titulo = '${titulo}',precio = '${precio}',imagen = '${nombreImagen}',  descripcion = '${descripcion}',  habitaciones = ${habitaciones}, wc = ${wc},estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
 
       //  echo $query;
 
