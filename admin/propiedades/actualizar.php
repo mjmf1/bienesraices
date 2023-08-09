@@ -26,6 +26,8 @@ $propiedad = mysqli_fetch_assoc($resultado);
 
 // '</pre>';
 
+// exit;
+
 //consultar para obtener a los vendedores
 
 $consulta = "SELECT * FROM vendedores";
@@ -103,50 +105,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    if (empty($errores)) {
       // Definir la ruta de la carpeta de destino
-$carpetaImagenes = '/bienesraices/imagenes/';
+      $carpetaImagenes = '/bienesraices/imagenes/';
 
-   // Verificar si la carpeta ya existe o crearla
-   if (!is_dir($carpetaImagenes)) {
-    mkdir($carpetaImagenes);
-}
-      // Subida de archivos
+      // Verificar si la carpeta ya existe o crearla
+      if (!is_dir($carpetaImagenes)) {
+         mkdir($carpetaImagenes);
+      }
 
-      if($imagen['name']){
-         echo' <pre>';
-         var_dump($_SERVER['DOCUMENT_ROOT'] . $carpetaImagenes . $propiedad['imagen']);
-              echo '</pre>';
+      if ($imagen['name']) {
 
          //eliminar imagen previa
-        $respuesta = unlink( $_SERVER['DOCUMENT_ROOT'] . $carpetaImagenes . $propiedad['imagen']);
+         $respuesta = unlink($_SERVER['DOCUMENT_ROOT'] . $carpetaImagenes . $propiedad['imagen']);
 
-        var_dump(
-         $_SERVER['DOCUMENT_ROOT']);
+         // Generar un Nombre Unico para la imagen
+         $nombreImagen = md5(uniqid(rand(), true)) . '.jpg';
 
+         // Establecer la ruta completa de la imagen en la carpeta de destino
+         $rutaImagen = $carpetaImagenes . $nombreImagen;
 
-      }  
-
-     
-     
-             
-
-         //   echo' <pre>';
-         //   var_dump($carpetaImagenes);
-         //        echo '</pre>';
-            exit;
-
-
-
-
-    // Generar un Nombre Unico para la imagen
-    $nombreImagen = md5(uniqid(rand(), true)) . '.jpg';
-
-    // Establecer la ruta completa de la imagen en la carpeta de destino
-    $rutaImagen = $carpetaImagenes . $nombreImagen;
-
-    // Mover la imagen a la carpeta de destino
-    move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
-
-
+         // Mover la imagen a la carpeta de destino
+         move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
+      } else {
+         $nombreImagen = $propiedad['imagen'];
+      }
       //my query
       $query = "UPDATE propiedades 
        SET titulo = '${titulo}',precio = '${precio}',imagen = '${nombreImagen}',  descripcion = '${descripcion}',  habitaciones = ${habitaciones}, wc = ${wc},estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
