@@ -1,216 +1,71 @@
-<?php 
-    require 'includes/funciones.php';  
-    incluirTemplate('header');
- ?>
+<?php
+require 'includes/funciones.php';
+incluirTemplate('header');
+?>
 
-    <main class="contenedor seccion">
-        <section class="seccion contenedor">
-            <h2>Casas y Depas en Venta</h2>
-            <div class="contenedor-anuncios">
-                <div class="anuncio">
-                    <picture>
-                        <source srcset="build/img/anuncio1.webp" type="image/webp">
-                        <source srcset="build/img/anuncio1.jpg" type="image/jpeg">
-                        <img loading="lazy" src="build/img/anuncio1.jpg" alt="anuncio">
-                    </picture>
-                    <div class="contenido-anuncio">
-                        <h3>Casa de Lujo en el Lago</h3>
-                        <p>casa en el lago con excelente vista, acabados de lujo a un excelente precio</p>
-                        <p class="precio">$3,000.000</p>
-    
-                        <ul class="icono-caracteristicas">
-                            <li>
-                                <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
-                                <p>3</p>
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" loading="lazy">
-                                <p>3</p>
-    
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
-                                <p>4</p>
-                            </li>
-    
-                        </ul>
-                        <a href="anuncio.html" class=" boton-amarillo-block">
-                            Ver Propiedad
-                        </a>
-                        
-                    </div> <!--contenido anuncio-->
-                </div> <!--anuncios-->
-                <div class="anuncio">
-                    <picture>
-                        <source srcset="build/img/anuncio2.webp" type="image/webp">
-                        <source srcset="build/img/anuncio2.jpg" type="image/jpeg">
-                        <img loading="lazy" src="build/img/anuncio2.jpg" alt="anuncio">
-                    </picture>
-                    <div class="contenido-anuncio">
-                        <h3>Casa terminados de lujo</h3>
-                        <p>casa en el lago con excelente vista, acabados de lujo a un excelente precio</p>
-                        <p class="precio">$3,000.000</p>
-    
-                        <ul class="icono-caracteristicas">
-                            <li>
-                                <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
-                                <p>3</p>
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" loading="lazy">
-                                <p>3</p>
-    
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
-                                <p>4</p>
-                            </li>
-    
-                        </ul>
-                        <a href="anuncio.html" class=" boton-amarillo-block">
-                            Ver Propiedad
-                        </a>
-                        
-                    </div> <!--contenido anuncio-->
-                </div> <!--anuncios-->
-                <div class="anuncio">
-                    <picture>
-                        <source srcset="build/img/anuncio3.webp" type="image/webp">
-                        <source srcset="build/img/anuncio3.jpg" type="image/jpeg">
-                        <img loading="lazy" src="build/img/anuncio3.jpg" alt="anuncio">
-                    </picture>
-                    <div class="contenido-anuncio">
-                        <h3>Casa con alberca</h3>
-                        <p>casa en el lago con excelente vista, acabados de lujo a un excelente precio</p>
-                        <p class="precio">$3,000.000</p>
-    
-                        <ul class="icono-caracteristicas">
-                            <li>
-                                <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
-                                <p>3</p>
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" loading="lazy">
-                                <p>3</p>
-    
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
-                                <p>4</p>
-                            </li>
-    
-                        </ul>
-                        <a href="anuncio.html" class=" boton-amarillo-block">
-                            Ver Propiedad
-                        </a>
-                        
-                    </div> <!--contenido anuncio-->
-                </div> <!--anuncios-->
+<?php
 
-                <div class="anuncio">
-                    <picture>
-                        <source srcset="build/img/anuncio4.webp" type="image/webp">
-                        <source srcset="build/img/anuncio4.jpg" type="image/jpeg">
-                        <img loading="lazy" src="build/img/anuncio.jpg" alt="anuncio">
-                    </picture>
-                    <div class="contenido-anuncio">
-                        <h3>Casa de Lujo en el Lago</h3>
-                        <p>casa en el lago con excelente vista, acabados de lujo a un excelente precio</p>
-                        <p class="precio">$3,000.000</p>
-    
-                        <ul class="icono-caracteristicas">
-                            <li>
-                                <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
-                                <p>3</p>
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" loading="lazy">
-                                <p>3</p>
-    
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
-                                <p>4</p>
-                            </li>
-    
-                        </ul>
-                        <a href="anuncio.html" class=" boton-amarillo-block">
-                            Ver Propiedad
-                        </a>
-                        
-                    </div> <!--contenido anuncio-->
-                </div> <!--anuncios-->
-                <div class="anuncio">
-                    <picture>
-                        <source srcset="build/img/anuncio5.webp" type="image/webp">
-                        <source srcset="build/img/anuncio5.jpg" type="image/jpeg">
-                        <img loading="lazy" src="build/img/anuncio5.jpg" alt="anuncio">
-                    </picture>
-                    <div class="contenido-anuncio">
-                        <h3>Casa de Lujo en el Lago</h3>
-                        <p>casa en el lago con excelente vista, acabados de lujo a un excelente precio</p>
-                        <p class="precio">$3,000.000</p>
-    
-                        <ul class="icono-caracteristicas">
-                            <li>
-                                <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
-                                <p>3</p>
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" loading="lazy">
-                                <p>3</p>
-    
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
-                                <p>4</p>
-                            </li>
-    
-                        </ul>
-                        <a href="anuncio.html" class=" boton-amarillo-block">
-                            Ver Propiedad
-                        </a>
-                        
-                    </div> <!--contenido anuncio-->
-                </div> <!--anuncios-->
-                <div class="anuncio">
-                    <picture>
-                        <source srcset="build/img/anuncio6.webp" type="image/webp">
-                        <source srcset="build/img/anuncio6.jpg" type="image/jpeg">
-                        <img loading="lazy" src="build/img/anuncio6.jpg" alt="anuncio">
-                    </picture>
-                    <div class="contenido-anuncio">
-                        <h3>Casa de Lujo en el Lago</h3>
-                        <p>casa en el lago con excelente vista, acabados de lujo a un excelente precio</p>
-                        <p class="precio">$3,000.000</p>
-    
-                        <ul class="icono-caracteristicas">
-                            <li>
-                                <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
-                                <p>3</p>
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" loading="lazy">
-                                <p>3</p>
-    
-                            </li>
-                            <li>
-                                <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
-                                <p>4</p>
-                            </li>
-    
-                        </ul>
-                        <a href="anuncio.html" class=" boton-amarillo-block">
-                            Ver Propiedad
-                        </a>
-                        
-                    </div> <!--contenido anuncio-->
-                </div> <!--anuncios-->
-            </div><!--contenedor anuncios-->
+// Importar la conexion
+require __DIR__ . '/includes/config/database.php';
+$conn = conectarDB();
+// Consultar
+$query = "SELECT * FROM propiedades";
+//Obtener resultados
+$resultado = mysqli_query($conn, $query);
 
-        </section>
-    </main>
+?>
 
-    <?php 
- incluirTemplate('footer');
- ?>
+
+<main class="contenedor seccion">
+    <section class="seccion contenedor">
+        <h2>Casas y Depas en Venta</h2>
+
+        
+
+        <?php while($propiedad = mysqli_fetch_assoc($resultado)):   ?>
+       
+       <div class="anuncio">
+           
+               <img loading="lazy" src="/bienesraices/imagenes/<?php echo $propiedad['imagen'];?>" alt="anuncio">
+           
+           <div class="contenido-anuncio">
+               <h3><?php echo $propiedad['titulo'];?></h3>
+               <p><?php echo $propiedad['descripcion'];?></p>
+               <p class="precio">$<?php echo $propiedad['precio'];?></p>
+
+               <ul class="icono-caracteristicas">
+                   <li>
+                       <img class="icono" src="build/img/icono_wc.svg" alt="icono wc" loading="lazy">
+                       <p><?php echo $propiedad['wc'];?></p>
+                   </li>
+                   <li>
+                       <img class="icono" src="build/img/icono_estacionamiento.svg" alt="icono estacionamiento" loading="lazy">
+                       <p><?php echo $propiedad['estacionamiento'];?></p>
+
+                   </li>
+                   <li>
+                       <img class="icono" src="build/img/icono_dormitorio.svg" alt="icono habitaciones" loading="lazy">
+                       <p><?php echo $propiedad['habitaciones'];?></p>
+                   </li>
+
+               </ul>
+               <a href="anuncio.php?id=<?php echo $propiedad['id'];?>" class=" boton-amarillo-block">
+                   Ver Propiedad
+               </a>
+
+                </div>  <!--contenido anuncio -->
+                    </div> <!--anuncio -->
+                    <?php endwhile; ?>
+                        </div> <!--contenedor anuncios -->
+               
+         <?php
+         // Cerrar la conexion
+         mysqli_close($conn);
+         ?>
+
+    </section>
+</main>
+
+<?php
+incluirTemplate('footer');
+?>

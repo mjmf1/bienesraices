@@ -1,45 +1,44 @@
 <?php
 //Muestra un mensaje condicional
 
-    //Importar la Conexion
-    require '../includes/config/database.php';
+//Importar la Conexion
+require '../includes/config/database.php';
 
-    $conn = conectarDB();
+$conn = conectarDB();
 
-    //Escribir la Query
-    $query = "SELECT * FROM propiedades";
+//Escribir la Query
+$query = "SELECT * FROM propiedades";
 
-   //Consultar la BD 
-   $resultadoConsulta = mysqli_query($conn , $query);
+//Consultar la BD 
+$resultadoConsulta = mysqli_query($conn, $query);
 
-  // Muestra mensaje condicional
-   $resultado = $_GET['resultado'] ?? null;
+// Muestra mensaje condicional
+$resultado = $_GET['resultado'] ?? null;
 
-   if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
-    $id = filter_var($id,FILTER_VALIDATE_INT);
+    $id = filter_var($id, FILTER_VALIDATE_INT);
 
-    if($id){
+    if ($id) {
 
         // Elimnar el archivo
         $query = "SELECT imagen FROM propiedades WHERE id = ${id}";
-        $resultado = mysqli_query($conn,$query);
+        $resultado = mysqli_query($conn, $query);
         $propiedad = mysqli_fetch_assoc($resultado);
 
-    
-        unlink('../imagenes/'. $propiedad['imagen']);
+
+        unlink('../imagenes/' . $propiedad['imagen']);
 
 
         // Eliminar la propiedad
         $query = "DELETE FROM propiedades WHERE id = ${id}";
         // echo $query;
-        $resultado = mysqli_query($conn,$query);
-        if($resultado){
+        $resultado = mysqli_query($conn, $query);
+        if ($resultado) {
             header('location: /bienesraices/admin?resultado=3');
         }
     }
-
-   }
+}
 
 // incluye un template
 require '../includes/funciones.php';
@@ -52,13 +51,13 @@ incluirTemplate('header');
 
         <p class="alerta exito">Anuncio Creado Correctamente</p>
 
-        <?php elseif ($resultado == 2) : ?>
+    <?php elseif ($resultado == 2) : ?>
 
-<p class="alerta exito">Anuncio Actualizado Correctamente</p>
+        <p class="alerta exito">Anuncio Actualizado Correctamente</p>
 
-<?php elseif ($resultado == 3) : ?>
+    <?php elseif ($resultado == 3) : ?>
 
-<p class="alerta exito">Anuncio Eliminado Correctamente</p>
+        <p class="alerta exito">Anuncio Eliminado Correctamente</p>
 
     <?php endif; ?>
 
@@ -78,24 +77,24 @@ incluirTemplate('header');
             </tr>
 
         </thead>
-         <tbody>  <!--Mostrar los resultados -->
-         <?php while($propiedad = mysqli_fetch_assoc($resultadoConsulta)): ?>
-            <tr>
-                <td><?php echo $propiedad['id'];?></td>
-                <td><?php echo $propiedad['titulo'];?></td>
-                <td><img src="/bienesraices/imagenes/<?php echo $propiedad['imagen'];?>" class="imagen-tabla" alt="imagenes"></td>
-                <td>$<?php echo $propiedad['precio'];?></td>
-                <td>
-                    <form method="POST" class="w-100">
-                    <input type="hidden"  name="id" value="<?php echo $propiedad['id']; ?>">
+        <tbody> <!--Mostrar los resultados -->
+            <?php while ($propiedad = mysqli_fetch_assoc($resultadoConsulta)) : ?>
+                <tr>
+                    <td><?php echo $propiedad['id']; ?></td>
+                    <td><?php echo $propiedad['titulo']; ?></td>
+                    <td><img src="/bienesraices/imagenes/<?php echo $propiedad['imagen']; ?>" class="imagen-tabla" alt="imagenes"></td>
+                    <td>$<?php echo $propiedad['precio']; ?></td>
+                    <td>
+                        <form method="POST" class="w-100">
+                            <input type="hidden" name="id" value="<?php echo $propiedad['id']; ?>">
 
-                    <input type="submit" class="boton-rojo-block " value="Eliminar">
+                            <input type="submit" class="boton-rojo-block " value="Eliminar">
 
-                </form>
-                    
-                    <a href="/bienesraices/admin/propiedades/actualizar.php?id=<?php echo $propiedad['id'];?> " class="boton-amarillo-block">Actualizar</a>
-                </td>
-            </tr>
+                        </form>
+
+                        <a href="/bienesraices/admin/propiedades/actualizar.php?id=<?php echo $propiedad['id']; ?> " class="boton-amarillo-block">Actualizar</a>
+                    </td>
+                </tr>
             <?php endwhile; ?>
     </table>
 
@@ -104,7 +103,7 @@ incluirTemplate('header');
 <?php
 
 //   Cerrar la conexion
-    mysqli_close($conn);
+mysqli_close($conn);
 
 incluirTemplate('footer');
 ?>
