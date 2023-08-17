@@ -51,11 +51,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 $_SESSION['email'] = $usuario['email'];
                 $_SESSION['login'] = true;
 
-            //    echo '<pre>';
-            //     var_dump($_SESSION);
-            //   echo  '</pre>';
-
-                // header('location: /bienesraices/admin');
+                header('location: /bienesraices/admin');
             }else{
                 $errores[] = "El password es incorrecto";
             }
