@@ -1,5 +1,15 @@
 <?php
-//Muestra un mensaje condicional
+
+session_start();
+
+            //   echo '<pre>';
+            //     var_dump($_SESSION);
+            //   echo  '</pre>';
+
+             $auth = $_SESSION['login']; 
+if(!$auth){
+    header('location: /bienesraices');
+}
 
 //Importar la Conexion
 require '../includes/config/database.php';
