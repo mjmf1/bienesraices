@@ -1,4 +1,10 @@
 <?php
+require '../../includes/funciones.php';
+$auth = estaAutenticado();
+
+if (!$auth) {
+   header('location: /bienesraices');
+}
 
 
 // validar por URL que la Id sea valido
@@ -156,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 //var_dump($conn);
 
-require '../../includes/funciones.php';
+
 incluirTemplate('header');
 ?>
 <main class="contenedor seccion">

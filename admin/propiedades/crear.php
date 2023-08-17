@@ -1,4 +1,13 @@
 <?php
+
+require '../../includes/funciones.php';
+$auth = estaAutenticado();
+
+if (!$auth) {
+   header('location: /bienesraices');
+}
+
+
 // base de datos
 
 require '../../includes/config/database.php';
@@ -116,17 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       }
    };
-
-   // echo '<pre>';
-   // var_dump($errores);
-   // echo '</pre>';
-
-
 }
 
 //var_dump($conn);
 
-require '../../includes/funciones.php';
 incluirTemplate('header');
 ?>
 <main class="contenedor seccion">

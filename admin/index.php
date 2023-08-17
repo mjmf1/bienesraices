@@ -1,14 +1,10 @@
 <?php
 
-session_start();
+require '../includes/funciones.php';
+$auth = estaAutenticado();
 
-            //   echo '<pre>';
-            //     var_dump($_SESSION);
-            //   echo  '</pre>';
-
-             $auth = $_SESSION['login']; 
-if(!$auth){
-    header('location: /bienesraices');
+if (!$auth) {
+   header('location: /bienesraices');
 }
 
 //Importar la Conexion
@@ -51,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // incluye un template
-require '../includes/funciones.php';
+
 incluirTemplate('header');
 ?>
 <main class="contenedor seccion">
