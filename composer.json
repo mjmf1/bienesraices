@@ -1,0 +1,17 @@
+{
+    "name": "marlon/bienesraices",
+    "description": "bienes raices con POO",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\Bienesraices\\": "src/class"
+        }
+    },
+    "authors": [
+        {
+            "name": "mjmf1",
+            "email": "marcomora61@gmail.com"
+        }
+    ],
+    "require": {}
+}

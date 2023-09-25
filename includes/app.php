@@ -1,5 +1,20 @@
-
 <?php
+ include 'funciones.php';
+// include 'config/database.php';
+include __DIR__ . '/../vendor/autoload.php';
+require 'vendor/autoload.php';
 
-define('TEMPLATES_URL', __DIR__ . '/templates');
-define('FUNCIONES_URL', __DIR__ . 'funciones.php');
+// use App\Bienesraices\Propiedad;
+// // use App\Propiedad;
+
+// $propiedad = new Propiedad();
+
+// var_dump($propiedad);
+
+
+
+
+
+
+
+// $instancia = new NombreDeClase();
