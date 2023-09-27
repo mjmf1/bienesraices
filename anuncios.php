@@ -1,12 +1,10 @@
 <?php
-require 'includes/funciones.php';
+require 'includes/app.php';
 incluirTemplate('header');
 ?>
 
 <?php
 
-// Importar la conexion
-require __DIR__ . '/includes/config/database.php';
 $conn = conectarDB();
 // Consultar
 $query = "SELECT * FROM propiedades";

@@ -1,10 +1,10 @@
 {
-    "name": "marlon/bienesraices",
-    "description": "bienes raices con POO",
+    "name": "marlon/bienes-raices-poo",
+    "description": "codigo con juan",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "App\\Bienesraices\\": "src/class"
+            "App\\": "class/"
         }
     },
     "authors": [

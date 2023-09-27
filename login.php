@@ -1,6 +1,7 @@
 <?php 
-// Importar conexion
-require 'includes/config/database.php';
+
+ require 'includes/app.php'; 
+
 $conn = conectarDB();
 
 // Autenticar el Usuario
@@ -67,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 
 // Incluye el Header
-    require 'includes/funciones.php';  
+    
     incluirTemplate('header');
  ?>
     <main class="contenedor seccion contenido-centrado">

@@ -8,8 +8,8 @@ if (!$id) {
     header('location: /bienesraices');
 }
 
-// Importar la conexion
-require __DIR__ . '/includes/config/database.php';
+require 'includes/app.php';  
+
 $conn = conectarDB();
 // Consultar
 $query = "SELECT * FROM propiedades WHERE id =  ${id}";
@@ -23,8 +23,6 @@ if(!$resultado->num_rows){
 
 $propiedad = mysqli_fetch_assoc($resultado);
 
-
-    require 'includes/funciones.php';  
     incluirTemplate('header');
  ?>
 
