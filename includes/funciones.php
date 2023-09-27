@@ -12,16 +12,18 @@ function incluirTemplate(string $nombre, bool $inicio = false)
     include TEMPLATES_URL . "/${nombre}.php";
 }
 
-function estaAutenticado() : bool {
+function estaAutenticado() : void {
     session_start();
-
-    // echo "<pre>";
-    // var_dump($_SESSION);
-    // echo "</pre>";
     
-    if($_SESSION['login']) {
-        return true;
+    if(!$_SESSION['login']) {
+        header('location:/');
     } 
+}
 
-    return false;
+function debuguear($variable)  {
+    echo '<pre>';
+    var_dump($variable);
+     echo '</pre>';
+     exit;
+    
 }

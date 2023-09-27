@@ -4,21 +4,7 @@ require '../../includes/app.php';
 
 use App\Propiedad;
 
-$propiedad = new Propiedad();
-
- echo '<pre>';
-var_dump($propiedad);
- echo '</pre>';
-
- exit;
-
-
-$auth = estaAutenticado();
-
-if (!$auth) {
-   header('location: /bienesraices');
-}
-
+estaAutenticado();
 
 $conn = conectarDB();
 
@@ -42,6 +28,15 @@ $vendedorId = '';
 
 // Ejucta el codigo Despues que el usuario envia en formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+   $propiedad = new Propiedad($_POST);
+
+   
+   $propiedad-> guardar();
+
+   debuguear($propiedad);
+
+   exit;
 
    // echo '<pre>';
    // var_dump($_POST);
