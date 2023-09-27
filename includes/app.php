@@ -8,8 +8,6 @@ include 'funciones.php';
 include 'config/database.php';
 include __DIR__ . '/../vendor/autoload.php';
 
-$propiedad = Propiedad::prueba();
+// $propiedad = Propiedad::prueba();
 
-// $propiedad = new Propiedad;
-
-var_dump($propiedad);
+$propiedad = new Propiedad;

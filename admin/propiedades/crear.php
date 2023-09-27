@@ -1,16 +1,24 @@
 <?php
 
-require '../../includes/funciones.php';
+require '../../includes/app.php';
+
+use App\Propiedad;
+
+$propiedad = new Propiedad();
+
+ echo '<pre>';
+var_dump($propiedad);
+ echo '</pre>';
+
+ exit;
+
+
 $auth = estaAutenticado();
 
 if (!$auth) {
    header('location: /bienesraices');
 }
 
-
-// base de datos
-
-require '../../includes/config/database.php';
 
 $conn = conectarDB();
 
