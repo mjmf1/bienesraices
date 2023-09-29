@@ -8,6 +8,6 @@ include 'funciones.php';
 include 'config/database.php';
 include __DIR__ . '/../vendor/autoload.php';
 
-// $propiedad = Propiedad::prueba();
+$conn = conectarDB();
 
-$propiedad = new Propiedad;
+Propiedad::setDB($conn);
