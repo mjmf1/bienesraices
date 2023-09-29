@@ -7,6 +7,9 @@ class Propiedad{
 
     // Base de datos
     protected static $conn;
+    protected static $columnasDB = ['id','titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'fecha', 'vendedorId'];
+
+
     public $id;
     public $titulo;
     public $precio;
@@ -17,6 +20,11 @@ class Propiedad{
     public $estacionamiento;
     public $fecha;
     public $vendedorId;
+
+    //Definir la conexion a la BD
+    public static function setDB($database){
+        self::$conn = $database;
+    }
 
     public function __construct($args = [])
     {
@@ -33,7 +41,12 @@ class Propiedad{
         
     }
 
+
     public function guardar(){
+
+        // Sanitizar los datos
+
+        $atributos = $this->sanitizarAtributos();
         // insertar en la base de datos 
 
       $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, fecha, vendedorId)
@@ -42,9 +55,24 @@ class Propiedad{
      $resultado = self::$conn->query($query);
      debuguear($resultado);
     }
-
-    public static function setDB($database){
-        self::$conn = $database;
+    // Identificar y unir los atributos de la DB
+    public function atributos(){
+        $atributos = [];
+        foreach(self::$columnasDB as $columna){
+            if($columna === 'id') continue;
+            $atributos[$columna] = $this->$columna;
+        }
+        return $atributos;
     }
 
+    public function sanitizarAtributos(){
+        $atributos = $this->atributos();
+        $sanitizado = [];
+
+        foreach($atributos as $key => $value){
+            $sanitizado[$key] = self::$conn->escape_string($value);
+        }
+        debuguear($sanitizado);
+    }
+   
 }
