@@ -8,6 +8,7 @@ class Propiedad{
     // Base de datos
     protected static $conn;
     protected static $columnasDB = ['id','titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'fecha', 'vendedorId'];
+    
 
 
     public $id;
@@ -40,17 +41,25 @@ class Propiedad{
         $this-> vendedorId = $args['vendedorId'] ?? '';
         
     }
-
-
     public function guardar(){
 
         // Sanitizar los datos
 
-        $atributos = $this->sanitizarAtributos();
+        $atributos =  $this->sanitizarAtributos() ;
+
+        // debuguear($string);
+
         // insertar en la base de datos 
 
-      $query = "INSERT INTO propiedades (titulo, precio, imagen, descripcion, habitaciones, wc, estacionamiento, fecha, vendedorId)
-      VALUES ('$this->titulo', '$this->precio', '$this->imagen' , '$this->descripcion', '$this->habitaciones', '$this->wc', '$this->estacionamiento', '$this->fecha', '$this->vendedorId')";
+      $query = "INSERT INTO propiedades ( ";
+      $query .= join(',',array_keys($atributos));
+      $query .= " ) VALUES ('"; 
+      $query .= join("', '",array_values($atributos));
+      $query .= "')";
+
+    //   echo $query;
+
+    //   debuguear($query);
 
      $resultado = self::$conn->query($query);
      debuguear($resultado);
@@ -65,14 +74,14 @@ class Propiedad{
         return $atributos;
     }
 
-    public function sanitizarAtributos(){
+    public  function sanitizarAtributos(){
         $atributos = $this->atributos();
         $sanitizado = [];
 
         foreach($atributos as $key => $value){
             $sanitizado[$key] = self::$conn->escape_string($value);
         }
-        debuguear($sanitizado);
+       return $sanitizado;
     }
    
 }

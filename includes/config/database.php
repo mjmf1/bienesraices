@@ -17,3 +17,4 @@ function conectarDB() : mysqli
    }
    return $conn;
 }
+

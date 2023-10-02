@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    
    $propiedad-> guardar();
 
-   debuguear($propiedad);
+   // debuguear($propiedad);
 
    exit;
 
