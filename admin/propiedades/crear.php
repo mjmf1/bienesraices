@@ -3,6 +3,7 @@
 require '../../includes/app.php';
 
 use App\Propiedad;
+use Intervention\Image\ImageManagerStatic as Image;
 
 estaAutenticado();
 
@@ -16,7 +17,9 @@ $resultado = mysqli_query($conn, $consulta);
 
 // arreglo con mensajes de errores 
 
-$errores = [];
+$errores = Propiedad::getErrores();
+
+// debuguear($errores);
 
 $titulo = '';
 $precio = '';
@@ -28,104 +31,48 @@ $vendedorId = '';
 
 // Ejucta el codigo Despues que el usuario envia en formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+   // Crea una nueva instancia
    $propiedad = new Propiedad($_POST);
 
+   // Generar un Nombre Unico para la imagen
+   $nombreImagen = md5(uniqid(rand(), true)) . '.jpg';
+
+   // Establecer la ruta completa de la imagen en la carpeta de destino
+   $rutaImagen = CARPETA_IMAGENES . $nombreImagen;
+
+   //Setear la imagen
+   // Realzia un resize  a la imagen con intervation
+   if($_FILES['imagen']['tmp_name']){
+      $Image = Image::make($_FILES['imagen']['tmp_name'])->fit(800,600);
+      $propiedad->setImagen($nombreImagen);
+
+   }
    
-   $propiedad-> guardar();
-
-   // debuguear($propiedad);
-
-   exit;
-
-   // echo '<pre>';
-   // var_dump($_POST);
-   // echo '</pre>';
-
-   echo '<pre>';
-   var_dump($_FILES);  //informacion mas detallada de los archivos tipo files
-   echo '</pre>';
-
-
-   $titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
-   $precio = mysqli_real_escape_string($conn, $_POST['precio']);
-   $descripcion  = mysqli_real_escape_string($conn, $_POST['descripcion']);
-   $habitaciones = mysqli_real_escape_string($conn,  $_POST['habitaciones']);
-   $wc = mysqli_real_escape_string($conn, $_POST['wc']);
-   $estacionamiento = mysqli_real_escape_string($conn, $_POST['estacionamiento']);
-   $vendedorId = mysqli_real_escape_string($conn, $_POST['vendedorId']);
-   $fecha = mysqli_real_escape_string($conn, date('y/m/d'));
-
-   //asignar files hacia una variable
-
-   $imagen = $_FILES['imagen'];
-
-   //validar por tamaño (1mb maximo)
-
-   $media = 1000 * 1000;
-
-   // Validación de campos requeridos
-   $camposRequeridos = [
-      'titulo' => 'Debes añadir un título',
-      'precio' => 'Debes añadir una cantidad de precio válida',
-      'descripcion' => 'La descripción debe tener al menos 50 caracteres',
-      'habitaciones' => 'Debes añadir una cantidad de habitaciones validas',
-      'wc' => 'El numero de baños es obligatorio',
-      'estacionamiento' => 'Debes añadir una cantidad de estacionamientos validos',
-      'vendedorId' => 'Seleccione un vendedor',
-
-   ];
-
-   foreach ($camposRequeridos as $campo => $mensaje) {
-      if (empty($_POST[$campo])) {
-         $errores[] = $mensaje;
-      } else if ($campo === 'descripcion' && strlen($_POST[$campo]) < 50) {
-         $errores[] = $mensaje;
-      }
-   }
-
-   // Validar imagen
-   if ($_FILES['imagen']['error'] === 4 || empty($_FILES['imagen']['name'])) {
-      $errores[] = 'La imagen es obligatoria';
-   } else if ($_FILES['imagen']['size'] > $media) {
-      $errores[] = 'La imagen es muy pesada';
-   }
-
-   // revisar que el arreglo ó (array) de erroes este vacio
+   //Validar
+   $errores = $propiedad->validar();
 
    if (empty($errores)) {
 
-      //**subida de archivos **
+      
 
-      //crear carpeta
-      $rutaImagen = '';
-      if ($_FILES['imagen']['error'] === 0) {
-         $nombreImagen = $_FILES['imagen']['name'];
-         //generar un nombre unico
-         $nombreImagen = md5(uniqid(rand(), true)) . '.' . 'jpg';
-
-         $rutaImagen = '/bienesraices/imagenes/' . $nombreImagen;
-
-
-
-         move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
+      if(!is_dir(CARPETA_IMAGENES)){
+         mkdir(CARPETA_IMAGENES);
       }
-
-      //echo $query;
-
-      $resultado = mysqli_query($conn, $query);
-
+     
+      //Guarda la imagen en el servidor
+      $Image->save(CARPETA_IMAGENES . $nombreImagen);
+      //Guarda en la base de datos
+     $resultado = $propiedad->guardar();
+      //Mensaje de exito o Error
       if ($resultado) {
          // redireccionar al usuario
          header('location: /bienesraices/admin/?resultado=1');
-      } else {
+      }else {
          echo 'no funcionó: ' . mysqli_error($conn); // Muestra el mensaje de error específico
          echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       }
-   };
+   }
 }
-
-//var_dump($conn);
 
 incluirTemplate('header');
 ?>
