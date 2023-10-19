@@ -3,12 +3,13 @@
 namespace App;
 
 
-class Propiedad{
+class Propiedad
+{
 
     // Base de datos
     protected static $conn;
-    protected static $columnasDB = ['id','titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'fecha', 'vendedorId'];
-    
+    protected static $columnasDB = ['id', 'titulo', 'precio', 'imagen', 'descripcion', 'habitaciones', 'wc', 'estacionamiento', 'fecha', 'vendedorId'];
+
     // Errores
     protected static $errores = [];
 
@@ -24,114 +25,155 @@ class Propiedad{
     public $vendedorId;
 
     //Definir la conexion a la BD
-    public static function setDB($database){
+    public static function setDB($database)
+    {
         self::$conn = $database;
     }
 
     public function __construct($args = [])
     {
-        $this-> id = $args['id'] ?? '';
-        $this-> titulo = $args['titulo'] ?? '';
-        $this-> precio = $args['precio'] ?? '';
-        $this-> imagen = $args['imagen'] ?? '';
-        $this-> descripcion = $args['descripcion'] ?? '';
-        $this-> habitaciones = $args['habitaciones'] ?? '';
-        $this-> wc = $args['wc'] ?? '';
-        $this-> estacionamiento = $args['estacionamiento'] ?? '';
-        $this-> fecha = date('Y/m/d');
-        $this-> vendedorId = $args['vendedorId'] ?? '';
-        
+        $this->id = $args['id'] ?? '';
+        $this->titulo = $args['titulo'] ?? '';
+        $this->precio = $args['precio'] ?? '';
+        $this->imagen = $args['imagen'] ?? '';
+        $this->descripcion = $args['descripcion'] ?? '';
+        $this->habitaciones = $args['habitaciones'] ?? '';
+        $this->wc = $args['wc'] ?? '';
+        $this->estacionamiento = $args['estacionamiento'] ?? '';
+        $this->fecha = date('Y/m/d');
+        $this->vendedorId = $args['vendedorId'] ?? '';
     }
-    public function guardar(){
+    public function guardar()
+    {
 
         // Sanitizar los datos
 
-        $atributos =  $this->sanitizarAtributos() ;
+        $atributos =  $this->sanitizarAtributos();
 
         // debuguear($string);
 
         // insertar en la base de datos 
 
-      $query = "INSERT INTO propiedades ( ";
-      $query .= join(',',array_keys($atributos));
-      $query .= " ) VALUES ('"; 
-      $query .= join("', '",array_values($atributos));
-      $query .= "')";
+        $query = "INSERT INTO propiedades ( ";
+        $query .= join(',', array_keys($atributos));
+        $query .= " ) VALUES ('";
+        $query .= join("', '", array_values($atributos));
+        $query .= "')";
 
-    //   echo $query;
+        //   echo $query;
 
-    //   debuguear($query);
+        //   debuguear($query);
 
-     $resultado = self::$conn->query($query);
+        $resultado = self::$conn->query($query);
         return $resultado;
     }
     // Identificar y unir los atributos de la DB
-    public function atributos(){
+    public function atributos()
+    {
         $atributos = [];
-        foreach(self::$columnasDB as $columna){
-            if($columna === 'id') continue;
+        foreach (self::$columnasDB as $columna) {
+            if ($columna === 'id') continue;
             $atributos[$columna] = $this->$columna;
         }
         return $atributos;
     }
 
-    public  function sanitizarAtributos(){
+    public  function sanitizarAtributos()
+    {
         $atributos = $this->atributos();
         $sanitizado = [];
 
-        foreach($atributos as $key => $value){
+        foreach ($atributos as $key => $value) {
             $sanitizado[$key] = self::$conn->escape_string($value);
         }
-       return $sanitizado;
+        return $sanitizado;
     }
     // Subida de archivos
-    public function setImagen($imagen){
+    public function setImagen($imagen)
+    {
         //Asignar al atributo de la imagen el nombre de la imagen
-        if($imagen){
+        if ($imagen) {
             $this->imagen = $imagen;
         }
     }
 
     // Validacion
-   public static function getErrores(){
-    return self::$errores;
-   }
-
-   public function validar() {
-
-    if(!$this->titulo) {
-        self::$errores[] = "Debes añadir un titulo";
+    public static function getErrores()
+    {
+        return self::$errores;
     }
 
-    if(!$this->precio) {
-        self::$errores[] = 'El Precio es Obligatorio';
-    }
+    public function validar()
+    {
 
-    if( strlen( $this->descripcion ) < 50 ) {
-        self::$errores[] = 'La descripción es obligatoria y debe tener al menos 50 caracteres';
-    }
+        if (!$this->titulo) {
+            self::$errores[] = "Debes añadir un titulo";
+        }
 
-    if(!$this->habitaciones) {
-        self::$errores[] = 'El Número de habitaciones es obligatorio';
-    }
-    
-    if(!$this->wc) {
-        self::$errores[] = 'El Número de Baños es obligatorio';
-    }
+        if (!$this->precio) {
+            self::$errores[] = 'El Precio es Obligatorio';
+        }
 
-    if(!$this->estacionamiento) {
-        self::$errores[] = 'El Número de lugares de Estacionamiento es obligatorio';
-    }
-    
-    if(!$this->vendedorId) {
-        self::$errores[] = 'Elige un vendedor';
-    }
+        if (strlen($this->descripcion) < 50) {
+            self::$errores[] = 'La descripción es obligatoria y debe tener al menos 50 caracteres';
+        }
 
-    if(!$this->imagen ) {
-        self::$errores[] = 'La Imagen es Obligatoria';
+        if (!$this->habitaciones) {
+            self::$errores[] = 'El Número de habitaciones es obligatorio';
+        }
+
+        if (!$this->wc) {
+            self::$errores[] = 'El Número de Baños es obligatorio';
+        }
+
+        if (!$this->estacionamiento) {
+            self::$errores[] = 'El Número de lugares de Estacionamiento es obligatorio';
+        }
+
+        if (!$this->vendedorId) {
+            self::$errores[] = 'Elige un vendedor';
+        }
+
+        if (!$this->imagen) {
+            self::$errores[] = 'La Imagen es Obligatoria';
+        }
+
+        return self::$errores;
     }
+    //Lista todas las propiedades
+    public static function all()
+    {
+        $query = "SELECT * FROM propiedades";
 
-    return self::$errores;
-}
+        $resultado =self::consultarSQL($query);
 
+        return $resultado;
+
+        //    debuguear($resultado->fetch_assoc());
+    }
+    public static function consultarSQL($query)
+    {
+        //Consultar la BD
+        $resultado = self::$conn->query($query);
+        //Iterar los resultados
+        $array = [];
+        while ($registro = $resultado->fetch_assoc()) {
+            $array[] = self::crearObjeto($registro);
+        }
+        //Liberar memoria
+        $resultado->free();
+        //Retornar los resultados
+        return $array;
+    }
+    protected static function crearObjeto($registro)
+    {
+        $object = new self;
+
+        foreach ($registro as $key => $value){
+            if(property_exists($object, $key)){
+                $object->$key = $value;
+            }
+        }
+        return $object;
+    }
 }
