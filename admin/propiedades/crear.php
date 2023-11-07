@@ -9,7 +9,7 @@ estaAutenticado();
 
 $conn = conectarDB();
 
-$propiedad = new Propiedad;
+$propiedad = new Propiedad();
 
 //consultar para obtener a los vendedores
 
@@ -25,7 +25,7 @@ $errores = Propiedad::getErrores();
 // Ejucta el codigo Despues que el usuario envia en formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    // Crea una nueva instancia
-   $propiedad = new Propiedad($_POST);
+   $propiedad = new Propiedad($_POST['propiedad']);
 
    // Generar un Nombre Unico para la imagen
    $nombreImagen = md5(uniqid(rand(), true)) . '.jpg';
@@ -35,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    //Setear la imagen
 // Realiza un resize a la imagen con Intervention
-if(isset($_FILES['imagen']) && $_FILES['imagen']['tmp_name']){
+if(isset($_FILES['propiedad']['tmp_name']['imagen'])){
    $nombreImagen = md5(uniqid(rand(), true) . '.jpg');
    $rutaImagen = CARPETA_IMAGENES . $nombreImagen;
 
-   $Image = Image::make($_FILES['imagen']['tmp_name'])->fit(800, 600);
+   $Image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800, 600);
    $propiedad->setImagen($nombreImagen);
 }
 

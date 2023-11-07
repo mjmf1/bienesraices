@@ -19,8 +19,6 @@ if (!$id) {
 // obtener los datos de la propiedad
 
 $propiedad = Propiedad::find($id);
-// debuguear($propiedad);
-
 
 //consultar para obtener a los vendedores
 
@@ -37,16 +35,11 @@ $titulo = $propiedad->titulo;
 // Ejucta el codigo Despues que el usuario envia en formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+   $args = $_POST['propiedad'];
+      
+   $propiedad->sincronizar($args);
 
-
-   $titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
-   $precio = mysqli_real_escape_string($conn, $_POST['precio']);
-   $descripcion  = mysqli_real_escape_string($conn, $_POST['descripcion']);
-   $habitaciones = mysqli_real_escape_string($conn,  $_POST['habitaciones']);
-   $wc = mysqli_real_escape_string($conn, $_POST['wc']);
-   $estacionamiento = mysqli_real_escape_string($conn, $_POST['estacionamiento']);
-   $vendedorId = mysqli_real_escape_string($conn, $_POST['vendedorId']);
-   $fecha = mysqli_real_escape_string($conn, date('y/m/d'));
+   debuguear($propiedad);
 
    //asignar files hacia una variable
 
