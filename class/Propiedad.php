@@ -60,10 +60,6 @@ class Propiedad
         $query .= join("', '", array_values($atributos));
         $query .= "')";
 
-        //   echo $query;
-
-        //   debuguear($query);
-
         $resultado = self::$conn->query($query);
         return $resultado;
     }

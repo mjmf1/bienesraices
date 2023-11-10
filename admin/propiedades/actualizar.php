@@ -28,54 +28,17 @@ $resultado = mysqli_query($conn, $consulta);
 
 // arreglo con mensajes de errores 
 
-$errores = [];
-
-$titulo = $propiedad->titulo;
+$errores = Propiedad::getErrores();
 
 // Ejucta el codigo Despues que el usuario envia en formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+   //Asignar los atributos
    $args = $_POST['propiedad'];
       
    $propiedad->sincronizar($args);
 
-   debuguear($propiedad);
-
-   //asignar files hacia una variable
-
-   $imagen = $_FILES['imagen'];
-
-   //validar por tamaño (1mb maximo)
-
-   $media = 1000 * 1000;
-
-   // Validación de campos requeridos
-   $camposRequeridos = [
-      'titulo' => 'Debes añadir un título',
-      'precio' => 'Debes añadir una cantidad de precio válida',
-      'descripcion' => 'La descripción debe tener al menos 50 caracteres',
-      'habitaciones' => 'Debes añadir una cantidad de habitaciones validas',
-      'wc' => 'El numero de baños es obligatorio',
-      'estacionamiento' => 'Debes añadir una cantidad de estacionamientos validos',
-      'vendedorId' => 'Seleccione un vendedor',
-
-   ];
-
-   foreach ($camposRequeridos as $campo => $mensaje) {
-      if (empty($_POST[$campo])) {
-         $errores[] = $mensaje;
-      } else if ($campo === 'descripcion' && strlen($_POST[$campo]) < 50) {
-         $errores[] = $mensaje;
-      }
-   }
-
-   // Validar solo el tamaño de la imagen
-   if ($_FILES['imagen']['size'] > $media) {
-      $errores[] = 'La imagen es muy pesada';
-   }
-
-   // revisar que el arreglo ó (array) de erroes este vacio
-
+   $errores = $propiedad->validar();
+  
    if (empty($errores)) {
       // Definir la ruta de la carpeta de destino
       $carpetaImagenes = '/bienesraices/imagenes/';
@@ -119,11 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       }
    };
-
-   // echo '<pre>';
-   // var_dump($errores);
-   // echo '</pre>';
-
 
 }
 
