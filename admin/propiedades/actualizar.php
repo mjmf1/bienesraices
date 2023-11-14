@@ -1,6 +1,7 @@
 <?php
 
 use App\Propiedad;
+use Intervention\Image\ImageManagerStatic as Image;
 
 require '../../includes/app.php';
 
@@ -34,43 +35,25 @@ $errores = Propiedad::getErrores();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    //Asignar los atributos
    $args = $_POST['propiedad'];
-      
+
    $propiedad->sincronizar($args);
-
+   //Validacion
    $errores = $propiedad->validar();
-  
+   //Subida de archivos
+   $nombreImagen = md5(uniqid(rand(), true) . '.jpg');
+   if ($_FILES['propiedad']['tmp_name']['imagen']) {
+      $Image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800, 600);
+      $propiedad->setImagen($nombreImagen);
+   }
+
+
    if (empty($errores)) {
-      // Definir la ruta de la carpeta de destino
-      $carpetaImagenes = '/bienesraices/imagenes/';
 
-      // Verificar si la carpeta ya existe o crearla
-      if (!is_dir($carpetaImagenes)) {
-         mkdir($carpetaImagenes);
-      }
 
-      if ($imagen['name']) {
-
-         //eliminar imagen previa
-         $respuesta = unlink($_SERVER['DOCUMENT_ROOT'] . $carpetaImagenes . $propiedad['imagen']);
-
-         // Generar un Nombre Unico para la imagen
-         $nombreImagen = md5(uniqid(rand(), true)) . '.jpg';
-
-         // Establecer la ruta completa de la imagen en la carpeta de destino
-         $rutaImagen = $carpetaImagenes . $nombreImagen;
-
-         // Mover la imagen a la carpeta de destino
-         move_uploaded_file($_FILES['imagen']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $rutaImagen);
-      } else {
-         $nombreImagen = $propiedad['imagen'];
-      }
+      exit;
       //my query
       $query = "UPDATE propiedades 
        SET titulo = '${titulo}',precio = '${precio}',imagen = '${nombreImagen}',  descripcion = '${descripcion}',  habitaciones = ${habitaciones}, wc = ${wc},estacionamiento = ${estacionamiento}, vendedorId = ${vendedorId} WHERE id = ${id}";
-
-      //  echo $query;
-
-      //  exit;
 
       $resultado = mysqli_query($conn, $query);
 
@@ -82,11 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       }
    };
-
 }
-
-//var_dump($conn);
-
 
 incluirTemplate('header');
 ?>
@@ -103,7 +82,6 @@ incluirTemplate('header');
    <?php endforeach; ?>
 
    <form class="formulario" method="POST" enctype="multipart/form-data">
-      <!-- enctype="multipart/form-data" necesario para leer los datelles de los file -->
 
       <?php include '../../includes/templates/formularios_propiedades.php'; ?>
 

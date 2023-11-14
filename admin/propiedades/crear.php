@@ -34,36 +34,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
    $rutaImagen = CARPETA_IMAGENES . $nombreImagen;
 
    //Setear la imagen
-// Realiza un resize a la imagen con Intervention
-if(isset($_FILES['propiedad']['tmp_name']['imagen'])){
-   $nombreImagen = md5(uniqid(rand(), true) . '.jpg');
-   $rutaImagen = CARPETA_IMAGENES . $nombreImagen;
-
-   $Image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800, 600);
-   $propiedad->setImagen($nombreImagen);
-}
-
-   
+   // Realiza un resize a la imagen con Intervention
+   if (isset($_FILES['propiedad']['tmp_name']['imagen'])) {
+      $nombreImagen = md5(uniqid(rand(), true) . '.jpg');
+      $rutaImagen = CARPETA_IMAGENES . $nombreImagen;
+      $Image = Image::make($_FILES['propiedad']['tmp_name']['imagen'])->fit(800, 600);
+      $propiedad->setImagen($nombreImagen);
+   }
    //Validar
    $errores = $propiedad->validar();
 
    if (empty($errores)) {
 
-      
 
-      if(!is_dir(CARPETA_IMAGENES)){
+
+      if (!is_dir(CARPETA_IMAGENES)) {
          mkdir(CARPETA_IMAGENES);
       }
-     
+
       //Guarda la imagen en el servidor
       $Image->save(CARPETA_IMAGENES . $nombreImagen);
       //Guarda en la base de datos
-     $resultado = $propiedad->guardar();
+      $resultado = $propiedad->guardar();
       //Mensaje de exito o Error
       if ($resultado) {
          // redireccionar al usuario
          header('location: /bienesraices/admin/?resultado=1');
-      }else {
+      } else {
          echo 'no funcionó: ' . mysqli_error($conn); // Muestra el mensaje de error específico
          echo 'Código de error: ' . mysqli_errno($conn); // Muestra el código de error
       }

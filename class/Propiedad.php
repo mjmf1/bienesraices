@@ -87,6 +87,14 @@ class Propiedad
     // Subida de archivos
     public function setImagen($imagen)
     {
+        //Elimana la imagen previa
+        if ($this->id) {
+            //Comprobar si existe el archivo
+            $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
+            if ($existeArchivo) {
+                unlink(CARPETA_IMAGENES . $this->imagen);
+            }
+        }
         //Asignar al atributo de la imagen el nombre de la imagen
         if ($imagen) {
             $this->imagen = $imagen;
@@ -141,12 +149,13 @@ class Propiedad
     {
         $query = "SELECT * FROM propiedades";
 
-        $resultado =self::consultarSQL($query);
+        $resultado = self::consultarSQL($query);
 
         return $resultado;
     }
     // Busca un registro por su Id
-    public static function find($id){
+    public static function find($id)
+    {
         $query = "SELECT * FROM propiedades WHERE id = ${id}";
         $resultado = self::consultarSQL($query);
         return array_shift($resultado);
@@ -169,19 +178,20 @@ class Propiedad
     {
         $object = new self;
 
-        foreach ($registro as $key => $value){
-            if(property_exists($object, $key)){
+        foreach ($registro as $key => $value) {
+            if (property_exists($object, $key)) {
                 $object->$key = $value;
             }
         }
         return $object;
     }
     // sincronizar el objeto en memoria con los cambios realizados por el usuario
-    public function sincronizar($args = []){
-       foreach($args as $key => $value){
-            if(property_exists($this, $key) && !is_null($value)){
+    public function sincronizar($args = [])
+    {
+        foreach ($args as $key => $value) {
+            if (property_exists($this, $key) && !is_null($value)) {
                 $this->$key = $value;
             }
-       }
+        }
     }
 }
