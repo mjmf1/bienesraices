@@ -43,14 +43,23 @@ class Propiedad
         $this->fecha = date('Y/m/d');
         $this->vendedorId = $args['vendedorId'] ?? 1;
     }
-    public function guardar()
+
+    public function guardar(){
+        if (isset($this->id)) {
+            //Actualizar
+            $this->actualizar();
+        }else{
+            //Creando un nuevo registro
+            $this->crear();
+        }
+    }
+
+    public function crear()
     {
 
         // Sanitizar los datos
 
         $atributos =  $this->sanitizarAtributos();
-
-        // debuguear($string);
 
         // insertar en la base de datos 
 
@@ -61,8 +70,15 @@ class Propiedad
         $query .= "')";
 
         $resultado = self::$conn->query($query);
+
         return $resultado;
     }
+    public function actualizar(){
+        debuguear('actualizando');
+    }
+
+
+
     // Identificar y unir los atributos de la DB
     public function atributos()
     {
@@ -88,7 +104,7 @@ class Propiedad
     public function setImagen($imagen)
     {
         //Elimana la imagen previa
-        if ($this->id) {
+        if (isset($this->id)) {
             //Comprobar si existe el archivo
             $existeArchivo = file_exists(CARPETA_IMAGENES . $this->imagen);
             if ($existeArchivo) {
